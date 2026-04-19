@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Race</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #e0f7fa;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #drivers {
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+        }
+
+        #message {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Next Race</h1>
+    <div id="message"></div>
+    <div id="drivers">
+        <ul id="driversList">
+            <!-- Drivers will be listed -->
+        </ul>
+    </div>
+    <button onclick="toggleFullscreen()">Toggle Fullscreen</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="next-race.js"></script>
+</body>
+
+</html>

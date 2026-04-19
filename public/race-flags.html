@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Race Flags</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background: green;
+            /* default Safe */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #flag-text {
+            font-size: 4em;
+            color: white;
+            text-transform: uppercase;
+            pointer-events: none;
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        #fullscreen-btn {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 1em;
+            padding: 0.3em 0.6em;
+            opacity: 0.6;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="flag-text">SAFE</div>
+    <button id="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="race-flags.js"></script>
+</body>
+
+</html>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="race-flags.js"></script>
+</body>
+
+</html>

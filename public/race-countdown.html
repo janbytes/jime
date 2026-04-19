@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Countdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #fff3e0;
+            text-align: center;
+        }
+
+        #countdown {
+            font-size: 72px;
+            margin: 50px;
+        }
+
+        button {
+            margin: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Race Countdown</h1>
+    <div id="countdown">--:--</div>
+    <button onclick="toggleFullscreen()">Toggle Fullscreen</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="race-countdown.js"></script>
+</body>
+
+</html>

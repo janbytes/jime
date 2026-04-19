@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leader Board</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #leaderboard {
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #timer {
+            font-size: 24px;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #flag {
+            font-size: 48px;
+            text-align: center;
+            margin: 20px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Leader Board</h1>
+    <div id="timer">Timer: --:--</div>
+    <div id="flag">Flag: Safe</div>
+    <div id="leaderboard">
+        <table>
+            <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Driver</th>
+                    <th>Car</th>
+                    <th>Best Lap</th>
+                    <th>Laps</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+                <!-- Rows will be populated -->
+            </tbody>
+        </table>
+    </div>
+    <button onclick="toggleFullscreen()">Toggle Fullscreen</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="leader-board.js"></script>
+</body>
+
+</html>

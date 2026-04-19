@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Front Desk - Receptionist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .auth {
+            display: block;
+        }
+
+        .main {
+            display: none;
+        }
+
+        .session {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .driver {
+            margin: 5px 0;
+        }
+
+        input,
+        button {
+            margin: 5px;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="auth" class="auth">
+        <h2>Access Key Required</h2>
+        <form onsubmit="event.preventDefault(); authenticate();">
+            <input type="password" id="accessKey" placeholder="Enter access key">
+            <button type="submit">Submit</button>
+        </form>
+        <div id="authError"></div>
+    </div>
+
+    <div id="main" class="main">
+        <h1>Front Desk - Configure Races</h1>
+        <button onclick="createSession()">Create New Session</button>
+        <div id="sessions"></div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="front-desk.js"></script>
+</body>
+
+</html>

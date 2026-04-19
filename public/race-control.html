@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Control - Safety Official</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .auth {
+            display: block;
+        }
+
+        .main {
+            display: none;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .mode-btn {
+            background-color: #f0f0f0;
+        }
+
+        .mode-btn.active {
+            background-color: #4CAF50;
+        }
+
+        #timer {
+            font-size: 24px;
+        }
+
+        .session-box {
+            border: 2px solid #333;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .control-section,
+        #active-session-area,
+        #management-area {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .badge-ended {
+            background: #666;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .badge-live {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .badge-finished {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .upcoming {
+            border-color: #ff9800;
+            /* Orange for the "on-deck" session */
+            background: #fffefb;
+        }
+
+        .restart-btn {
+            background-color: #f44336;
+            color: white;
+            font-size: 14px;
+            height: auto;
+            width: auto;
+        }
+
+        /* Edit Buttons in the Next Session list */
+        .edit-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            height: auto;
+            width: auto;
+        }
+
+        /* Start Button styling */
+        .start-btn {
+            background-color: #ff9800;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            background-color: #e68a00;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="auth" class="auth">
+        <h2>Access Key Required</h2>
+        <form onsubmit="event.preventDefault(); authenticate();">
+            <input type="password" id="accessKey" placeholder="Enter access key">
+            <button type="submit">Submit</button>
+        </form>
+        <div id="authError"></div>
+    </div>
+
+    <div id="main" class="main">
+        <h1>Race Control</h1>
+
+        <div class="control-section">
+            <div id="timer">Timer: --:--</div>
+            <div id="status">Race Mode: Safe</div>
+            <div class="mode-controls">
+                <button id="safe" class="mode-btn" onclick="setMode('Safe')">Safe</button>
+                <button id="hazard" class="mode-btn" onclick="setMode('Hazard')">Hazard</button>
+                <button id="danger" class="mode-btn" onclick="setMode('Danger')">Danger</button>
+                <button id="finish" class="mode-btn" onclick="setMode('Finish')">Finish</button>
+            </div>
+        </div>
+
+        <div class="session-card current">
+            <div id="currentSession">
+            </div>
+            <div class="button-group">
+                <button class="warning-btn" onclick="startRace(true)">Restart Timer</button>
+                <button class="danger-btn" onclick="endSession()">End Session</button>
+            </div>
+        </div>
+
+        <div class="session-card next">
+            <h2>Upcoming Race (Management)</h2>
+            <div id="nextSession">
+            </div>
+            <div class="button-group">
+                <button class="primary-btn" onclick="startRace(false)">Start Next Race</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="race-control.js"></script>
+</body>
+
+</html>
+
+</html>

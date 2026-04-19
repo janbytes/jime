@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lap Line Tracker - Observer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .auth {
+            display: block;
+        }
+
+        .main {
+            display: none;
+        }
+
+        .car-container {
+            display: inline-block;
+            margin: 15px;
+            text-align: center;
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 15px;
+            border: 2px solid #ddd;
+        }
+
+        .lap-timer-display {
+            font-family: 'Courier New', Courier, monospace;
+            /* Monospaced is better for timers */
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+            background: #000;
+            color: #00ff00;
+            /* Classic "Matrix" green timer look */
+            padding: 5px;
+            border-radius: 5px;
+            min-width: 100px;
+        }
+
+        button {
+            padding: 20px;
+            margin: 10px;
+            font-size: 24px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .car-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .car-btn:disabled {
+            background-color: #ccc;
+        }
+
+        #timer {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="auth" class="auth">
+        <h2>Access Key Required</h2>
+        <form onsubmit="event.preventDefault(); authenticate();">
+            <input type="password" id="accessKey" placeholder="Enter access key">
+            <button type="submit">Submit</button>
+        </form>
+        <div id="authError"></div>
+    </div>
+
+    <div id="main" class="main">
+        <h1>Lap Line Tracker</h1>
+        <div id="timer">Timer: --:--</div>
+        <div id="cars">
+            <!-- Buttons will be generated here -->
+        </div>
+        <div id="status"></div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="lap-line-tracker.js"></script>
+</body>
+
+</html>
