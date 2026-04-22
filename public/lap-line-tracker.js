@@ -91,10 +91,37 @@
         socket.on('initialData', /** @param {InitialData} data */(data) => {
             updateRegisteredCars(data.raceSessions, data.currentSessionId);
             updateStatus(data.raceMode);
+            if (data.currentSessionId !== null) {
+                const activeSession = data.raceSessions.find(s => s.id === data.currentSessionId);
+                if (activeSession && (activeSession.status === 'current')) {
+                    raceEnded = false;
+                    const now = Date.now();
+
+                    // We don't know exactly when the car last crossed the line, 
+                    // so we set the start time to 'now' so the next lap starts tracking immediately.
+                    activeSession.drivers.forEach(driver => {
+                        if (!carLapStartTimes[driver.car]) {
+                            carLapStartTimes[driver.car] = now;
+                        }
+                    });
+                }
+            }
         });
 
         socket.on('sessionsUpdated', /** @param {RaceSession[]} sessions */(sessions) => {
-            updateRegisteredCars(sessions, null); // Assume current is set elsewhere
+            const currentSession = sessions.find(s => s.status === 'current');
+            const currentId = currentSession ? currentSession.id : null;
+            updateRegisteredCars(sessions, currentId);
+
+            // Backfill start times for any newly appeared cars
+            if (currentSession) {
+                const now = Date.now();
+                currentSession.drivers.forEach(driver => {
+                    if (!carLapStartTimes[driver.car]) {
+                        carLapStartTimes[driver.car] = now;
+                    }
+                });
+            }
         });
 
         socket.on('raceStarted', /** @param {RaceStartedData} data */(data) => {
@@ -115,12 +142,13 @@
 
         socket.on('raceModeChanged', /** @param {'Safe' | 'Hazard' | 'Danger' | 'Finish'} mode */(mode) => {
             updateStatus(mode);
+            const now = Date.now();
             if (mode === 'Danger') {
-                dangerStartTime = Date.now(); // Record when the pause started
+                dangerStartTime = now; // Record when the pause started
             }
-            else if (dangerStartTime !== null && (mode === 'Safe' || mode === 'Hazard')) {
+            else if (dangerStartTime !== null ) {
                 // Calculate how long the pause lasted
-                const pauseDuration = Date.now() - dangerStartTime;
+                const pauseDuration = now - dangerStartTime;
 
                 // "Shift" every car's lap start time forward by the pause duration
                 for (let car in carLapStartTimes) {
@@ -141,6 +169,21 @@
 
         socket.on('sessionEnded', () => {
             raceEnded = true;
+            carLapStartTimes = {};  
+            // Stop the animation loop
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+
+        // Reset the main race timer
+        const timerEl = document.getElementById('timer');
+        if (timerEl) timerEl.textContent = 'Timer: 0:00';
+
+        // Reset all individual car displays to zero
+        document.querySelectorAll('.lap-timer-display').forEach(display => {
+            display.textContent = '0.00';
+        });
             updateButtons();
             getElement('status').textContent = 'Race session ended.';
         });
@@ -172,7 +215,7 @@
                     }
 
                     // Update the text (e.g., 42.53)
-                    display.textContent = elapsed.toFixed(2);
+                    display.textContent = Math.max(0, elapsed).toFixed(2);
                 }
             }
 
