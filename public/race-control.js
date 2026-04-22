@@ -101,6 +101,11 @@
         socket.on('sessionEnded', () => {
             isSessionEnded = true;
             renderCurrentSession();
+            const timerEl = document.getElementById('timer');
+            if (timerEl) {
+                timerEl.textContent = "Timer: --:--";
+                // Or "Timer: 0:00" depending on your preference
+            }
         });
     }
 
@@ -112,6 +117,9 @@
 
         if (isRestart) {
             if (!currentSession) return alert("No active race to restart.");
+            if (isSessionEnded) {
+                return alert("The race has already ended. You cannot restart the timer now.");
+            }
             if (confirm("RESTART TIMER?")) socket.emit('startRace');
         } else {
             if (!nextSession) return alert("No upcoming race scheduled.");
@@ -201,9 +209,20 @@
 
     function renderNextSession() {
         const div = getDiv('nextSession');
+        const startNextBtn = /** @type {HTMLButtonElement|null} */(document.querySelector('.primary-btn'));
         if (!nextSession) {
             div.innerHTML = '<p>No upcoming races in schedule.</p>';
+            if (startNextBtn) {
+                startNextBtn.disabled = true;
+                startNextBtn.style.opacity = "0.5";
+                startNextBtn.style.cursor = "not-allowed";
+            }
             return;
+        }
+        if (startNextBtn) {
+            startNextBtn.disabled = false;
+            startNextBtn.style.opacity = "1";
+            startNextBtn.style.cursor = "pointer";
         }
         /** @type {RaceSession} */
         const session = nextSession;
